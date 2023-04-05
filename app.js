@@ -4,18 +4,28 @@ const shoeCodeOutputStatus = document.querySelector('.output-status');
 
 // reading shoe code input from user and dsi
 searchButton.addEventListener("click", () => { 
-  const code = searchBarInput.value;
-  shoeCodeOutputStatus.textContent = code;
+  const code = searchBarInput.value.trim();
+  let found = false;
   
-  // highlight matching grid
   grids.forEach((grid) => {
-    if (grid.dataset.content.includes(code)) {
+    const content = grid.dataset.content.trim();
+    if (code && content.split(",").map(c => c.trim()).includes(code)) {
       grid.classList.add("highlight");
+      found = true;
     } else {
       grid.classList.remove("highlight");
     }
   });
+  
+  if (found) {
+    shoeCodeOutputStatus.textContent = "Found";
+    shoeCodeOutputStatus.classList.add("found");
+  } else {
+    shoeCodeOutputStatus.textContent = "Could not find, please look in store";
+    shoeCodeOutputStatus.classList.remove("found");
+  }
 });
+  
 
 const grids = document.querySelectorAll(".grid");
 const dialog = document.getElementById("dialog");
