@@ -1,5 +1,5 @@
 :root {
-  --dark-purple: #440a57;
+  --dark-purple: #21002f;
 }
 
 * {
@@ -33,12 +33,16 @@ html, body {
 }
 .grid {
   background-color: red;
+  overflow-y: auto;
 }
 
 .output {
   background-color: red;
   grid-column-start: 1;
   grid-column-end: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search {
@@ -62,6 +66,11 @@ html, body {
   text-align: center; /* center the placeholder text horizontally */
 }
 
+.search-bar::placeholder {
+  font-family: Arial, Helvetica, sans-serif;
+  font: bold;
+  font-size: 16px;
+}
 
 .search-button {
   background-color: transparent;
