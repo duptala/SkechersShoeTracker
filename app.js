@@ -5,8 +5,16 @@ const shoeCodeOutputStatus = document.querySelector('.output-status');
 // reading shoe code input from user and dsi
 searchButton.addEventListener("click", () => { 
   const code = searchBarInput.value.trim();
-  let found = false;
+  if (code === "") {
+    shoeCodeOutputStatus.textContent = 'Please enter a shoe code';
+    shoeCodeOutputStatus.style.backgroundColor = '#F5F5F5';
+    grids.forEach((grid) => { 
+        grid.classList.remove("highlight")
+    });
+    return;
+  }
   
+  let found = false;
   grids.forEach((grid) => {
     const content = grid.dataset.content.trim();
     if (code && content.split(",").map(c => c.trim()).includes(code)) {
