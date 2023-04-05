@@ -1,0 +1,78 @@
+:root {
+  --dark-purple: #440a57;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  border: none;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--dark-purple);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: 50px repeat(3, 80px) 60px;
+  gap: 5px;
+}
+
+
+.navigate {
+  background-color: lavender;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.grid {
+  background-color: red;
+}
+
+.output {
+  background-color: red;
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.search {
+  background-color: rgb(163, 65, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.search:hover {
+  background-color: rgb(187, 115, 255);
+}
+
+.search-bar {
+  border-radius: 3px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  line-height: 50px; /* set the height equal to the parent container */
+  text-align: center; /* center the placeholder text horizontally */
+}
+
+
+.search-button {
+  background-color: transparent;
+}
+
+.search-button-img {
+  width: 35px;
+}
+
+
+
+
+
+
