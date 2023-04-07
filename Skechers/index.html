@@ -1,0 +1,65 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skechers shoe locater</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--Search funtionality of website-->
+    <div class="main-container">
+      <div class="title"><p>Skechers Shoe Tracker</p></div>
+      <div class="search-bar">
+        <input
+          class="search-input"
+          type="search"
+          placeholder="Search for shoe"
+        />
+        <button class="search-button">Search</button>
+      </div>
+
+      <!--Edit button-->
+      <div>
+        <button class="edit-button">Enter Edit Mode</button>
+      </div>
+
+      <!--Shoe store layout-->
+      <div class="grid-container">
+        <!--Backroom data-->
+        <div id="backroom-top" class="grid">
+          <div class="grid-items"></div>
+          <div class="grid-items"></div>
+          <div class="grid-items"></div>
+        </div>
+        <div id="backroom-left" class="grid"></div>
+        <div id="backroom-right" class="grid"></div>
+        <div id="backroom-bottom" class="grid"></div>
+        <div id="backroom-small-right" class="grid"></div>
+        <div id="backroom-small-left" class="grid"></div>
+
+        <!--Mens section/Kids-->
+        <div id="men-top" class="grid"></div>
+        <div id="men-left" class="grid"></div>
+        <div id="men-right-kids" class="grid"></div>
+        <div id="men-bottom" class="grid"></div>
+
+        <!--Women section-->
+        <div id="women-first-aisle" class="grid"></div>
+        <div id="women-second-aisle" class="grid"></div>
+        <div id="women-third-aisle" class="grid"></div>
+        <div id="women-right" class="grid"></div>
+
+        <!--Skechers counter sections-->
+        <div id="skechers-counter">Skechers counter</div>
+        <div id="counter-display" class="grid"></div>
+        <div id="counter-stock" class="grid"></div>
+      </div>
+      <footer class="footer">
+        <p>Made with &#10084; by Devesh</p>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

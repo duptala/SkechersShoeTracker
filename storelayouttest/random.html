@@ -1,0 +1,70 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+    <link rel="stylesheet" href="random.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="website-title"><p>Skechers Shoe Tracker</p></div>
+      <div class="search-bar">
+        <input
+          class="search-input"
+          type="search"
+          placeholder="Search for shoe"
+        />
+        <span><button class="search-button">Search</button></span>
+      </div>
+
+      <!--temporary edit button -->
+      <div>
+        <button id="edit-button" style="margin-bottom: 10px">
+          Enter Edit Mode
+        </button>
+      </div>
+
+      <div class="grid-container">
+        <div id="backroom-back-top" class="grid"></div>
+        <div id="front-instore-men" class="grid"></div>
+        <div id="backroom-left" class="grid"></div>
+        <div id="backroom-right" class="grid"></div>
+        <div id="left-instore-men" class="grid"></div>
+        <div id="front-fullprice-women" class="grid"></div>
+        <div id="backroom-hidden-right" class="grid"></div>
+        <div id="backroom-hidden-left" class="grid"></div>
+        <div id="backroom-bottom" class="grid" data-content="TEST1"></div>
+        <div id="full-price-mens" class="grid" data-content="TEST2"></div>
+        <div id="children-men-aisle" class="grid" data-content="TEST3"></div>
+        <div id="women-first-aisle" class="grid" data-content="TEST4"></div>
+        <div id="women-second-aisle" class="grid" data-content="TEST5"></div>
+        <div id="women-third-aisle" class="grid" data-content="TEST6"></div>
+        <div id="skechers-helpdesk"></div>
+        <div id="counter-display"></div>
+        <div id="bottom-right-stock"></div>
+      </div>
+    </div>
+
+    <div id="dialog" class="dialog">
+      <div class="dialog-content">
+        <span class="close">&times;</span>
+        <p id="dialog-content"></p>
+      </div>
+    </div>
+
+    <dialog id="edit-dialog">
+      <form>
+        <label for="grid-content">Grid Content:</label><br />
+        <input type="text" id="grid-content" name="grid-content" /><br />
+        <button type="submit">Save</button>
+      </form>
+    </dialog>
+
+    <footer>
+      <p>Made with &#10084; by Devesh</p>
+    </footer>
+
+    <script src="random.js"></script>
+  </body>
+</html>
