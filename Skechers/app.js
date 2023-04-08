@@ -134,11 +134,18 @@ searchButton.addEventListener("click", () => {
             // Remove the edit dialog from the DOM when it's closed
             document.body.removeChild(editDialog);
           });
-        } else if (isDeleteMode && isEditMode === false) {
-          gridElement.setAttribute("data-content", "");
-          grid.classList.remove("highlight");
-          queryResult.textContent = "Shoe deleted!";
-          queryResult.classList.add("found");
+        } else if (isDeleteMode && isEditMode === false) { // delete mode
+
+          // only showing success "shoe deleted if stock existed before"
+          if (gridElement.getAttribute("data-content").length != 0 && gridElement.getAttribute("data-content").length === "") {
+            queryResult.textContent = "Shoe deleted!";
+            gridElement.setAttribute("data-content", "");
+            grid.classList.remove("highlight");
+            queryResult.classList.add("found");
+          } else {
+            queryResult.textContent = "Stock already empty";
+          }
+          
         } else {
           const content = gridElement.getAttribute("data-content");
           dialogContent.textContent = content;
