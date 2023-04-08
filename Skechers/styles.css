@@ -111,11 +111,15 @@
     grid-template-rows: repeat(18, 26px);
     border: 2px dotted black;
     border-radius: 20px;
-    background-color: beige;
+    background-color: #958aff;
   }
 
   .grid-container .grid {
     background-color: pink;
+  }
+
+  .grid-items{
+    cursor: pointer;
   }
 
   .search-result {

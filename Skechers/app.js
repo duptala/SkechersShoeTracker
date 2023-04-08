@@ -47,38 +47,45 @@ searchButton.addEventListener("click", () => {
 
   // checking whether in edit mode or not
   editBtn.addEventListener("click", () => {
-    isEditMode = !isEditMode;
-    if(isEditMode && isDeleteMode === false) {
-      editBtn.textContent = "Exit Edit Mode";
-      searchBarInput.disabled = true;
-      searchButton.disabled = true;
-      isDeleteMode.disabled = true;
-      editBtn.classList.add("edit-btn-state");
-    } else {
-      searchBarInput.disabled = false;
-      searchButton.disabled = false;
-      isDeleteMode.disabled = false;
-      editBtn.textContent = "Enter Edit Mode";
-      editBtn.classList.remove("edit-btn-state");
+    if (isDeleteMode === false) {
+      isEditMode = !isEditMode;
+
+      if(isEditMode && isDeleteMode === false) {
+        editBtn.textContent = "Exit Edit Mode";
+        searchBarInput.disabled = true;
+        searchButton.disabled = true;
+        isDeleteMode.disabled = true;
+        editBtn.classList.add("edit-btn-state");
+      } else {
+        searchBarInput.disabled = false;
+        searchButton.disabled = false;
+        isDeleteMode.disabled = false;
+        editBtn.textContent = "Enter Edit Mode";
+        editBtn.classList.remove("edit-btn-state");
+      }
     }
+    
   });
 
   // adding delete button functionality
   deleteBtn.addEventListener("click", () => {
-    isDeleteMode = !isDeleteMode;
-    if (isDeleteMode) {
-      isEditMode.disabled = true;
-      searchBarInput.disabled = true;
-      searchButton.disabled = true;
-      deleteBtn.textContent = "Exit Delete Mode"
-      deleteBtn.classList.add("delete-btn-state");
-    } else {
-      searchBarInput.disabled = false;
-      searchButton.disabled = false;
-      isEditMode.disabled = false;
-      deleteBtn.textContent = "Delete Stock"
-      deleteBtn.classList.remove("delete-btn-state");
+    if (isEditMode === false) {
+      isDeleteMode = !isDeleteMode;
+      if (isDeleteMode) {
+        isEditMode.disabled = true;
+        searchBarInput.disabled = true;
+        searchButton.disabled = true;
+        deleteBtn.textContent = "Exit Delete Mode"
+        deleteBtn.classList.add("delete-btn-state");
+      } else {
+        searchBarInput.disabled = false;
+        searchButton.disabled = false;
+        isEditMode.disabled = false;
+        deleteBtn.textContent = "Delete Stock"
+        deleteBtn.classList.remove("delete-btn-state");
+      }
     }
+    
   });
 
     // functionality for editing grid and updating values
