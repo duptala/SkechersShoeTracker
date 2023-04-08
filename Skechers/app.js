@@ -119,7 +119,18 @@ searchButton.addEventListener("click", () => {
           saveButton.addEventListener("click", () => {
             gridElement.setAttribute("data-content", contentInput.value);
             dialogContent.textContent = contentInput.value;
-            editDialog.close();
+            // // INDICATING THAT STOCK IS ADDED
+            // var newDiv = document.createElement("div");
+            // grid.append(newDiv);
+            // newDiv.style.position = "relative";
+            // newDiv.style.top = "4px";
+            // newDiv.style.left = "4px";
+            // newDiv.style.backgroundColor = "rgb(0, 255, 213)";
+            // newDiv.style.borderRadius = "50%";
+            // newDiv.style.width = "5px";
+            // newDiv.style.height = "5px";
+            // newDiv.style.zIndex = 2;
+             editDialog.close();
           });
     
           cancelButton.type = "button";
@@ -137,15 +148,19 @@ searchButton.addEventListener("click", () => {
         } else if (isDeleteMode && isEditMode === false) { // delete mode
 
           // only showing success "shoe deleted if stock existed before"
-          if (gridElement.getAttribute("data-content").length != 0 && gridElement.getAttribute("data-content").length === "") {
-            queryResult.textContent = "Shoe deleted!";
+          if (gridElement.getAttribute("data-content").length === 0) {
+            queryResult.textContent = "Stock already empty";
+            queryResult.classList.remove("found");
+            queryResult.classList.add("error");
+          } else {
+            queryResult.textContent = "Stock section deleted!";
+            queryResult.classList.add("found");
             gridElement.setAttribute("data-content", "");
             grid.classList.remove("highlight");
-            queryResult.classList.add("found");
-          } else {
-            queryResult.textContent = "Stock already empty";
-          }
-          
+            if (newDiv) {
+              newDiv.remove();
+            }
+          }          
         } else {
           const content = gridElement.getAttribute("data-content");
           dialogContent.textContent = content;
