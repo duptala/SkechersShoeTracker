@@ -25,7 +25,7 @@
       </div>
 
       <div>
-        <button class="delete-content-button">Delete Data</button>
+        <button class="delete-content-button">Delete Stock</button>
       </div>
 
       <!--Shoe store layout-->
@@ -87,13 +87,14 @@
           <div class="grid-items" id="mk-r-4" data-content=""></div>
           <div class="grid-items" id="mk-r-5" data-content=""></div>
           <div class="grid-items" id="mk-r-6" data-content=""></div>
+          <div class="grid-items" id="mk-r-7" data-content=""></div>
+          <div class="grid-items" id="mk-r-8" data-content=""></div>
         </div>
         <!--MEN RIGHT-->
         <div id="men-bottom" class="grid">
           <!--MEN BOTTOM-->
           <div class="grid-items" id="m-b-1" data-content=""></div>
           <div class="grid-items" id="m-b-2" data-content=""></div>
-          <div class="grid-items" id="m-b-3" data-content=""></div>
         </div>
 
         <!--Women section-->
@@ -106,6 +107,8 @@
           <div class="grid-items" id="w-f-6" data-content=""></div>
           <div class="grid-items" id="w-f-7" data-content=""></div>
           <div class="grid-items" id="w-f-8" data-content=""></div>
+          <div class="grid-items" id="w-f-9" data-content=""></div>
+          <div class="grid-items" id="w-f-10" data-content=""></div>
         </div>
         <div id="women-second-aisle" class="grid">
           <div class="grid-items" id="w-s-1" data-content=""></div>
@@ -116,6 +119,8 @@
           <div class="grid-items" id="w-s-6" data-content=""></div>
           <div class="grid-items" id="w-s-7" data-content=""></div>
           <div class="grid-items" id="w-s-8" data-content=""></div>
+          <div class="grid-items" id="w-s-9" data-content=""></div>
+          <div class="grid-items" id="w-s-10" data-content=""></div>
         </div>
         <div id="women-third-aisle" class="grid">
           <div class="grid-items" id="w-t-1" data-content=""></div>
@@ -126,6 +131,8 @@
           <div class="grid-items" id="w-t-6" data-content=""></div>
           <div class="grid-items" id="w-t-7" data-content=""></div>
           <div class="grid-items" id="w-t-8" data-content=""></div>
+          <div class="grid-items" id="w-t-9" data-content=""></div>
+          <div class="grid-items" id="w-t-10" data-content=""></div>
         </div>
         <div id="women-right-upper" class="grid">
           <div class="grid-items" id="w-r-1" data-content=""></div>
@@ -140,16 +147,17 @@
           <div class="grid-items" id="w-r-5" data-content=""></div>
           <div class="grid-items" id="w-r-6" data-content=""></div>
         </div>
-        <!--Skechers counter sections-->
+
+        <!--Skechers counter/till-->
         <div id="skechers-counter">Skechers counter</div>
         <div id="counter-display" class="grid">
           <div class="grid-items" id="counter-disp" data-content=""></div>
         </div>
-        <div id="counter-stock" class="grid">
-          <div class="grid-items" id="counter-side-stock" data-content=""></div>
-        </div>
+
+        <div id="backroom-entry">Backroom</div>
       </div>
 
+      <!--DISPLAYS STOCK IN EACH SECTION-->
       <div id="dialog" class="dialog">
         <div class="dialog-content">
           <span class="close">&times;</span>
@@ -157,14 +165,7 @@
         </div>
       </div>
 
-      <dialog id="edit-dialog">
-        <form>
-          <label for="grid-content">Grid Content:</label><br />
-          <input type="text" id="grid-content" name="grid-content" /> <br />
-          <button type="submit">Save</button>
-        </form>
-      </dialog>
-
+      <!--SHOWING STATUS OF QUERY-->
       <div class="search-result"></div>
       <footer class="footer">
         <p>Made with &#128156; by Devesh</p>

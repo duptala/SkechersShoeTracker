@@ -43,77 +43,103 @@ searchButton.addEventListener("click", () => {
   const editBtn = document.querySelector('.edit-button');
   const deleteBtn = document.querySelector('.delete-content-button');
   let isEditMode = false;
+  let isDeleteMode = false;
 
   // checking whether in edit mode or not
   editBtn.addEventListener("click", () => {
     isEditMode = !isEditMode;
-    if(isEditMode) {
-        editBtn.textContent = "Exit Edit Mode";
+    if(isEditMode && isDeleteMode === false) {
+      editBtn.textContent = "Exit Edit Mode";
+      searchBarInput.disabled = true;
+      searchButton.disabled = true;
+      isDeleteMode.disabled = true;
+      editBtn.classList.add("edit-btn-state");
     } else {
-        editBtn.textContent = "Enter Edit Mode";
+      searchBarInput.disabled = false;
+      searchButton.disabled = false;
+      isDeleteMode.disabled = false;
+      editBtn.textContent = "Enter Edit Mode";
+      editBtn.classList.remove("edit-btn-state");
     }
   });
 
-  // deleting selected grids for when shoe boxes are moved
+  // adding delete button functionality
   deleteBtn.addEventListener("click", () => {
-    grids.forEach((grid) => {
-        grid.dataset.content = '';
-      })
-    });
+    isDeleteMode = !isDeleteMode;
+    if (isDeleteMode) {
+      isEditMode.disabled = true;
+      searchBarInput.disabled = true;
+      searchButton.disabled = true;
+      deleteBtn.textContent = "Exit Delete Mode"
+      deleteBtn.classList.add("delete-btn-state");
+    } else {
+      searchBarInput.disabled = false;
+      searchButton.disabled = false;
+      isEditMode.disabled = false;
+      deleteBtn.textContent = "Delete Stock"
+      deleteBtn.classList.remove("delete-btn-state");
+    }
+  });
 
     // functionality for editing grid and updating values
-  grids.forEach((grid) => {
-    grid.addEventListener("click", () => {
-      const gridId = grid.id;
-      const gridElement = document.getElementById(gridId);
-  
-      if (isEditMode) {
-        // Create a new edit dialog for this grid element
-        const editDialog = document.createElement("dialog");
-        const contentInput = document.createElement("input");
-        const saveButton = document.createElement("button");
-        const cancelButton = document.createElement("button");
-
-        editDialog.classList.add("edit-dialog");
-        contentInput.classList.add("edit-dialog-input");
-        saveButton.classList.add("edit-dialog-save-btn");
-        cancelButton.classList.add("edit-dialog-cancel-btn");
-  
-        editDialog.appendChild(contentInput);
-        editDialog.appendChild(saveButton);
-        editDialog.appendChild(cancelButton);
-        document.body.appendChild(editDialog);
-  
-        contentInput.type = "text";
-        contentInput.value = gridElement.getAttribute("data-content");
-  
-        saveButton.type = "button";
-        saveButton.textContent = "Save";
-        saveButton.addEventListener("click", () => {
-          gridElement.setAttribute("data-content", contentInput.value);
-          dialogContent.textContent = contentInput.value;
-          editDialog.close();
-        });
-  
-        cancelButton.type = "button";
-        cancelButton.textContent = "Cancel";
-        cancelButton.addEventListener("click", () => {
-          editDialog.close();
-        });
-  
-        editDialog.showModal();
-  
-        editDialog.addEventListener("close", () => {
-          // Remove the edit dialog from the DOM when it's closed
-          document.body.removeChild(editDialog);
-        });
-      } else {
-        const content = gridElement.getAttribute("data-content");
-        dialogContent.textContent = content;
-        dialog.style.display = "block";
-      }
+    grids.forEach((grid) => {
+      grid.addEventListener("click", () => {
+        const gridId = grid.id;
+        const gridElement = document.getElementById(gridId);
+    
+        if (isEditMode && isDeleteMode === false) {
+          // Create a new edit dialog for this grid element
+          const editDialog = document.createElement("dialog");
+          const contentInput = document.createElement("input");
+          const saveButton = document.createElement("button");
+          const cancelButton = document.createElement("button");
+    
+          editDialog.classList.add("edit-dialog");
+          contentInput.classList.add("edit-dialog-input");
+          saveButton.classList.add("edit-dialog-save-btn");
+          cancelButton.classList.add("edit-dialog-cancel-btn");
+    
+          editDialog.appendChild(contentInput);
+          editDialog.appendChild(saveButton);
+          editDialog.appendChild(cancelButton);
+          document.body.appendChild(editDialog);
+    
+          contentInput.type = "text";
+          contentInput.value = gridElement.getAttribute("data-content");
+    
+          saveButton.type = "button";
+          saveButton.textContent = "Save";
+          saveButton.addEventListener("click", () => {
+            gridElement.setAttribute("data-content", contentInput.value);
+            dialogContent.textContent = contentInput.value;
+            editDialog.close();
+          });
+    
+          cancelButton.type = "button";
+          cancelButton.textContent = "Cancel";
+          cancelButton.addEventListener("click", () => {
+            editDialog.close();
+          });
+    
+          editDialog.showModal();
+    
+          editDialog.addEventListener("close", () => {
+            // Remove the edit dialog from the DOM when it's closed
+            document.body.removeChild(editDialog);
+          });
+        } else if (isDeleteMode && isEditMode === false) {
+          gridElement.setAttribute("data-content", "");
+          grid.classList.remove("highlight");
+          queryResult.textContent = "Shoe deleted!";
+          queryResult.classList.add("found");
+        } else {
+          const content = gridElement.getAttribute("data-content");
+          dialogContent.textContent = content;
+          dialog.style.display = "block";
+        }
+      });
     });
-  });
+    
    
 // close dialog
 closeBtn.addEventListener("click", () => {
