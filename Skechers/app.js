@@ -109,6 +109,8 @@ searchButton.addEventListener("click", () => {
           editDialog.appendChild(saveButton);
           editDialog.appendChild(cancelButton);
           document.body.appendChild(editDialog);
+
+          
     
           contentInput.type = "text";
           contentInput.value = gridElement.getAttribute("data-content");
@@ -116,25 +118,14 @@ searchButton.addEventListener("click", () => {
           saveButton.type = "button";
           saveButton.textContent = "Save";
           saveButton.addEventListener("click", () => {
-            gridElement.setAttribute("data-content", contentInput.value);
-            dialogContent.textContent = contentInput.value;
-            queryResult.textContent = "Shoe successfully added!";
-            queryResult.classList.add("found");
-            // // INDICATING THAT STOCK IS ADDED
-            // var newDiv = document.createElement("div");
-            // grid.append(newDiv);
-            // newDiv.style.position = "absolute"; // Change position to absolute
-            // newDiv.style.top = "3px"; // Adjust top and left position as needed
-            // newDiv.style.left = "4px";
-            // newDiv.style.backgroundColor = "rgb(0, 221, 255)";
-            // newDiv.style.borderRadius = "50%";
-            // newDiv.style.width = "8px";
-            // newDiv.style.height = "8px";
-            // newDiv.style.zIndex = 2;
-            // newDiv.style.marginTop = "2px";
-            // grid.style.position = "relative";
-            editDialog.close();
+          gridElement.setAttribute("data-content", contentInput.value);
+          dialogContent.textContent = contentInput.value;
+          queryResult.textContent = "Shoe successfully added!";
+          queryResult.classList.add("found");
+          editDialog.close();
           });
+
+          
     
           cancelButton.type = "button";
           cancelButton.textContent = "Cancel";
@@ -175,6 +166,13 @@ closeBtn.addEventListener("click", () => {
   dialog.style.display = "none";
 });
 
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === "Escape") {
+    dialogBox.style.display = "none";
+  }
+});
+
 window.addEventListener("click", (event) => {
   if (event.target == dialog) {
     dialog.style.display = "none";
@@ -182,4 +180,6 @@ window.addEventListener("click", (event) => {
 });
 
 
-  
+fetch('https://sheetdb.io/api/v1/668oakd1xb6dl').then(response => response.json()).then(data => {
+  console.log(data[0]);
+});

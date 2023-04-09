@@ -120,19 +120,20 @@
     display: grid;
     grid-template-columns: repeat(27, 39px);
     grid-template-rows: repeat(18, 26px);
-    border: 2px dotted black;
+    border: 4px dashed black;
+    border-spacing: 100px;
     border-radius: 20px;
     background-color: #958aff;
   }
 
-  .grid-container .grid {
+  .grid-items{
     background-color: rgb(255, 191, 202);
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
 
-  
-
-  .grid-items{
-    cursor: pointer;
+  .grid-items:hover{
+    background-color: rgb(255, 145, 163);
   }
 
   .search-result {
@@ -213,6 +214,23 @@
     display: grid;
     grid-template-columns: repeat(2,1fr);
     border-right: 3px solid black;
+  }
+
+  .skx-logo {
+    grid-column-start: 3;
+    grid-column-end: 16;
+    grid-row-start: 17;
+    grid-row-end: 19;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .skx-logo-img {
+    margin-bottom: 12px;
+    margin-right: 20px;
+    width: 100%;
   }
 
   #backroom-small-right {
