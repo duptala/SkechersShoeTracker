@@ -3,30 +3,33 @@ const searchBarInput = document.querySelector('.search-input');
 const queryResult = document.querySelector('.search-result');
 const grids = document.querySelectorAll(".grid-items");
 
-// trying to find a dataset match when user enters shoe code
-searchButton.addEventListener("click", () => { 
-    const code = searchBarInput.value.trim();
-    queryResult.classList.remove("error");
-    queryResult.classList.remove("found");
+function searchShoe() {
+  const code = searchBarInput.value.trim();
+  queryResult.classList.remove("error");
+  queryResult.classList.remove("found");
 
-    if (code==="") { // if code empty, output error
-        queryResult.textContent = "⚠️ Please enter a valid shoe code! ⚠️"
-        queryResult.classList.add("error");
-        grids.forEach((grid) => {
-            grid.classList.remove("highlight");
-        });
-    } else {
+  if (code === "") {
+    queryResult.textContent = "⚠️ Please enter a valid shoe code! ⚠️";
+    queryResult.classList.add("error");
+    grids.forEach((grid) => {
+      grid.classList.remove("highlight");
+    });
+  } else {
     let found = false;
     grids.forEach((grid) => {
       const content = grid.dataset.content;
-      if (content && code && content.split(",").map(c => c.trim()).includes(code)) {
-            grid.classList.add("highlight");
-            found = true;
+      if (
+        content &&
+        code &&
+        content.split(",").map((c) => c.trim()).includes(code)
+      ) {
+        grid.classList.add("highlight");
+        found = true;
       } else {
         grid.classList.remove("highlight");
       }
       if (found) {
-        queryResult.textContent = "Shoe found! 😄"
+        queryResult.textContent = "Shoe found! 😄";
         queryResult.classList.add("found");
       } else {
         queryResult.textContent = "Shoe NOT found.. 🙁";
@@ -34,8 +37,16 @@ searchButton.addEventListener("click", () => {
         queryResult.classList.add("error");
       }
     });
-    }
-  });
+  }
+}
+
+// SEARCHING FOR SHOE ON INPUT (button + enter)
+searchButton.addEventListener("click", searchShoe);
+searchBarInput.addEventListener("keydown", function (event) {
+  if (event.keyCode === 13) {
+    searchShoe();
+  }
+});
 
   const dialog = document.getElementById("dialog");
   const dialogContent = document.getElementById("dialog-content");
@@ -88,6 +99,14 @@ searchButton.addEventListener("click", () => {
     
   });
 
+    function saveShoe(contentInput, gridElement, editDialog) {
+      gridElement.setAttribute("data-content", contentInput.value);
+      gridElement.classList.add("has-stock");
+      dialogContent.textContent = contentInput.value;
+      queryResult.textContent = "Shoe successfully added!";
+      queryResult.classList.add("found");
+      editDialog.close();
+    }
     // functionality for editing grid and updating values
     grids.forEach((grid) => {
       grid.addEventListener("click", () => {
@@ -110,23 +129,23 @@ searchButton.addEventListener("click", () => {
           editDialog.appendChild(cancelButton);
           document.body.appendChild(editDialog);
 
-          
-    
           contentInput.type = "text";
           contentInput.value = gridElement.getAttribute("data-content");
     
+          // save button event listener
           saveButton.type = "button";
           saveButton.textContent = "Save";
           saveButton.addEventListener("click", () => {
-          gridElement.setAttribute("data-content", contentInput.value);
-          dialogContent.textContent = contentInput.value;
-          queryResult.textContent = "Shoe successfully added!";
-          queryResult.classList.add("found");
-          editDialog.close();
+            saveShoe(contentInput, gridElement, editDialog);
           });
-
-          
     
+          contentInput.addEventListener("keydown", function (event) {
+            if (event.keyCode === 13) {
+              saveShoe(contentInput, gridElement, editDialog);
+            }
+          });
+    
+          
           cancelButton.type = "button";
           cancelButton.textContent = "Cancel";
           cancelButton.addEventListener("click", () => {
@@ -150,6 +169,7 @@ searchButton.addEventListener("click", () => {
             queryResult.classList.add("found");
             gridElement.setAttribute("data-content", "");
             grid.classList.remove("highlight");
+            gridElement.classList.remove("has-stock");
           }       
           } else {
             const content = gridElement.getAttribute("data-content");
@@ -180,6 +200,6 @@ window.addEventListener("click", (event) => {
 });
 
 
-fetch('https://sheetdb.io/api/v1/668oakd1xb6dl').then(response => response.json()).then(data => {
-  console.log(data[0]);
-});
+// fetch('https://sheetdb.io/api/v1/668oakd1xb6dl').then(response => response.json()).then(data => {
+//   console.log(data[0]);
+// });
