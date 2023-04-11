@@ -46,6 +46,14 @@ app.get('/shoes/get/:shoeid', (req, res) => {
     })
 })
 
+app.get('/shoes/getallshoes', (req, res) => {
+    let sql = 'SELECT * from shoes';
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        res.json(result);
+    })
+})
+
 
 // Define Express route to delete shoes based on section_name
 app.get('/shoes/delete', (req, res) => {

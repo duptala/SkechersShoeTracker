@@ -4,62 +4,66 @@ const queryResult = document.querySelector('.search-result');
 const grids = document.querySelectorAll(".grid-items");
 
 
-async function fetchLocationOutputs() {
-  // getting input and removing styles
+async function populateSectionsWithShoes() {
+  // getting all the shoes
+  const response = await fetch('http://localhost:3000/shoes/getallshoes');
+  const stockInfo = await response.json();
+    stockInfo.forEach(stock => {
+      const gridID = stock['section_name'];
+      grids.forEach(grid => {
+        if (grid.id === gridID) {
+          const gridElement = document.getElementById(grid.id);
+          gridElement.setAttribute("data-content", stock['shoeID'])
+        }
+      })
+    })
+}
+
+populateSectionsWithShoes();
+
+
+function searchShoe() {
   const code = searchBarInput.value.trim();
   queryResult.classList.remove("error");
   queryResult.classList.remove("found");
-  // if empty input, send error message
+
   if (code === "") {
     queryResult.textContent = "⚠️ Please enter a valid shoe code! ⚠️";
     queryResult.classList.add("error");
     grids.forEach((grid) => {
       grid.classList.remove("highlight");
     });
-    return; // exit function if code is empty
-  }
-
-  const location_outputs = [];
-  const response = await fetch(`http://localhost:3000/shoes/get/${code}`);
-  const data = await response.json();
-  for (let i = 0; i < data.length; i++) {
-    location_outputs[i] = data[i].section_name;
-  }
-
-  let found = false;
-  for (let i = 0; i < location_outputs.length; i++) {
-    found = false; // reset found for each section_name
-    const gridId = location_outputs[i];
+  } else {
+    let found = false;
     grids.forEach((grid) => {
-      if (gridId === grid.id) {
-        console.log("success!")
+      const content = grid.dataset.content;
+      if (
+        content &&
+        code &&
+        content.split(",").map((c) => c.trim()).includes(code)
+      ) {
         grid.classList.add("highlight");
         found = true;
       } else {
         grid.classList.remove("highlight");
       }
+      if (found) {
+        queryResult.textContent = "Shoe found! 😄";
+        queryResult.classList.add("found");
+      } else {
+        queryResult.textContent = "Shoe NOT found.. 🙁";
+        queryResult.classList.remove("found");
+        queryResult.classList.add("error");
+      }
     });
   }
-
-  if (found) {
-    queryResult.textContent = "Shoe found! 😄";
-    queryResult.classList.add("found");
-  } else {
-    queryResult.textContent = "Shoe NOT found.. 🙁";
-    queryResult.classList.remove("found");
-    queryResult.classList.add("error");
-  }
-
-  // Other code that depends on location_outputs goes here
 }
 
-
-
 // SEARCHING FOR SHOE ON INPUT (button + enter)
-searchButton.addEventListener("click", fetchLocationOutputs);
+searchButton.addEventListener("click", searchShoe);
 searchBarInput.addEventListener("keydown", function (event) {
   if (event.keyCode === 13) {
-    fetchLocationOutputs();
+    searchShoe();
   }
 });
 
@@ -204,7 +208,7 @@ closeBtn.addEventListener("click", () => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Enter" || event.key === "Escape") {
-    dialogBox.style.display = "none";
+    dialog.style.display = "none";
   }
 });
 
