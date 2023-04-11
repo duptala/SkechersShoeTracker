@@ -3,48 +3,63 @@ const searchBarInput = document.querySelector('.search-input');
 const queryResult = document.querySelector('.search-result');
 const grids = document.querySelectorAll(".grid-items");
 
-function searchShoe() {
+
+async function fetchLocationOutputs() {
+  // getting input and removing styles
   const code = searchBarInput.value.trim();
   queryResult.classList.remove("error");
   queryResult.classList.remove("found");
-
+  // if empty input, send error message
   if (code === "") {
     queryResult.textContent = "⚠️ Please enter a valid shoe code! ⚠️";
     queryResult.classList.add("error");
     grids.forEach((grid) => {
       grid.classList.remove("highlight");
     });
-  } else {
-    let found = false;
+    return; // exit function if code is empty
+  }
+
+  const location_outputs = [];
+  const response = await fetch(`http://localhost:3000/shoes/get/${code}`);
+  const data = await response.json();
+  for (let i = 0; i < data.length; i++) {
+    location_outputs[i] = data[i].section_name;
+  }
+
+  let found = false;
+  for (let i = 0; i < location_outputs.length; i++) {
+    found = false; // reset found for each section_name
+    const gridId = location_outputs[i];
     grids.forEach((grid) => {
-      const content = grid.dataset.content;
-      if (
-        content &&
-        code &&
-        content.split(",").map((c) => c.trim()).includes(code)
-      ) {
+      if (gridId === grid.id) {
+        console.log("success!")
         grid.classList.add("highlight");
         found = true;
       } else {
         grid.classList.remove("highlight");
       }
-      if (found) {
-        queryResult.textContent = "Shoe found! 😄";
-        queryResult.classList.add("found");
-      } else {
-        queryResult.textContent = "Shoe NOT found.. 🙁";
-        queryResult.classList.remove("found");
-        queryResult.classList.add("error");
-      }
     });
   }
+
+  if (found) {
+    queryResult.textContent = "Shoe found! 😄";
+    queryResult.classList.add("found");
+  } else {
+    queryResult.textContent = "Shoe NOT found.. 🙁";
+    queryResult.classList.remove("found");
+    queryResult.classList.add("error");
+  }
+
+  // Other code that depends on location_outputs goes here
 }
 
+
+
 // SEARCHING FOR SHOE ON INPUT (button + enter)
-searchButton.addEventListener("click", searchShoe);
+searchButton.addEventListener("click", fetchLocationOutputs);
 searchBarInput.addEventListener("keydown", function (event) {
   if (event.keyCode === 13) {
-    searchShoe();
+    fetchLocationOutputs();
   }
 });
 
@@ -199,7 +214,3 @@ window.addEventListener("click", (event) => {
   }
 });
 
-
-// fetch('https://sheetdb.io/api/v1/668oakd1xb6dl').then(response => response.json()).then(data => {
-//   console.log(data[0]);
-// });
