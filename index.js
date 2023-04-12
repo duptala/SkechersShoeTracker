@@ -20,22 +20,6 @@ db.connect((err) => {
     console.log("my sql connected!")
 })
 
-
-
-
-// INSERTING SHOE
-app.get('/shoes/addshoe', (req, res) => {
-    // const shoeID = gridElement.dataset.content;
-    // const section_name = gridElement.id;
-    let shoe = {shoeID:'10081, 1082, 1083', section_name: 'br-t-2'};
-    let sql = 'INSERT INTO shoes SET ?';
-    let query = db.query(sql, shoe, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send("shoes recieved!")
-    });
-})
-
 // GET SHOES IN SECTION - don't really need
 app.get('/shoes/get/:shoeid', (req, res) => {
     const shoe_id = req.params.shoeid;
@@ -76,19 +60,19 @@ app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
     let query = db.query(sql, (err, result) => {
         if(err) throw err;
         // res.json("result");
-        res.send("updated!");
+        res.send("shoes inserted/updated!");
     })
 })
 
 
 
 // Define Express route to delete shoes based on section_name
-app.get('/shoes/delete', (req, res) => {
+app.get('/shoes/delete/:section_name', (req, res) => {
     // const section_name = gridElement.id;
-    const section_name = "br-t-2";
+    const section_name = req.params.section_name;
   
-    let sql = 'DELETE FROM shoes WHERE shoes.section_name = ?';
-    let query = db.query(sql, section_name, (error, result) => {
+    let sql = `DELETE FROM SHOES WHERE SHOES.section_name = '${section_name}'`;
+    let query = db.query(sql, (error, result) => {
       if (error) throw error;
       res.send("shoes deleted!");
     });
