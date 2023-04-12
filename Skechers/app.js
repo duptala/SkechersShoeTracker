@@ -158,12 +158,12 @@ searchBarInput.addEventListener("keydown", function (event) {
         if (isEditMode && isDeleteMode === false) {
           // Create a new edit dialog for this grid element
           const editDialog = document.createElement("dialog");
-          const contentInput = document.createElement("input");
+          const contentInput = document.createElement("textarea");
           const saveButton = document.createElement("button");
           const cancelButton = document.createElement("button");
     
           editDialog.classList.add("edit-dialog");
-          contentInput.classList.add("edit-dialog-input");
+          contentInput.classList.add("edit-dialog-textarea");
           saveButton.classList.add("edit-dialog-save-btn");
           cancelButton.classList.add("edit-dialog-cancel-btn");
     

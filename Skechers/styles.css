@@ -456,7 +456,7 @@
     overflow: none;
   }
 
-  .edit-dialog-input {
+  .edit-dialog-textarea {
     height: 100px;
     width: 600px;
     white-space: pre-line;
