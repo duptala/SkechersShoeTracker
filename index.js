@@ -4,8 +4,11 @@ const mysql = require('mysql');
 const cors = require('cors'); // for front-end interaction
 app.use(cors());
 
+app.listen(process.env.PORT || '3000', () => {
+    console.log(`Server is running on port: ${process.env.PORT || '3000'}`);
+});
 
-//creating connection 
+// connection - ORIGINAL 
 const db = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -13,8 +16,10 @@ const db = mysql.createConnection({
     database : 'skechers_shoe_location'
 });
 
+
 db.connect((err) => {
     if(err){
+        console.log("ERROR CONNECTING");
         throw err;
     }
     console.log("my sql connected!")
@@ -78,10 +83,6 @@ app.get('/shoes/delete/:section_name', (req, res) => {
     });
   });
   
-
-app.listen('3000', () => {
-    console.log("server started on port 3000");
-});
 
 
 
