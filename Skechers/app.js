@@ -27,9 +27,9 @@ async function insertShoeIntoSection(stock, section_name) {
   await fetch(`http://localhost:3000/shoes/insert/${stock}/${section_name}`);
 }
 
-// async function updateShoeIntoSection(stock, section_name) {
-//   await fetch(`http://localhost:3000/shoes/update/${stock}/${section_name}`);
-// }
+async function updateShoeIntoSection(stock, section_name) {
+  await fetch(`http://localhost:3000/shoes/update/${stock}/${section_name}`);
+}
 
 async function deleteShoesIntoSection(section_name) {
   await fetch(`http://localhost:3000/shoes/delete/${section_name}`);
@@ -134,10 +134,14 @@ searchBarInput.addEventListener("keydown", function (event) {
   });
 
     function saveShoe(contentInput, grid, gridElement, editDialog) {
-      // sets the new stock value of the new grid section
       const stock = contentInput.value;
+      if (gridElement.getAttribute("data-content").length === 0) {
+        insertShoeIntoSection(stock, grid.id); // if no data exists, insert
+      } else {
+        updateShoeIntoSection(stock, grid.id); // else, update it so no new tuple in D.B
+      }
       gridElement.setAttribute("data-content", contentInput.value);
-      insertShoeIntoSection(stock, grid.id); // CALLING THE FUNCTION TO UPDATE IN SQL DATABASE
+       // CALLING THE FUNCTION TO UPDATE IN SQL DATABASE
       gridElement.classList.add("has-stock");
       // populateSectionsWithShoes();
       // updating dialog (because user is not refreshing to fetch the results again)

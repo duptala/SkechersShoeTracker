@@ -41,17 +41,17 @@ app.get('/shoes/getallshoes', (req, res) => {
 
 
 // UPDATE
-// app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
-//     const shoe_id = req.params.shoeid;
-//     const section_name = req.params.section_name;
+app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
+    const shoe_id = req.params.shoeid;
+    const section_name = req.params.section_name;
 
-//     let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
-//     let query = db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         // res.json("result");
-//         res.send("updated!");
-//     })
-// })
+    let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        // res.json("result");
+        res.send("updated!");
+    })
+})
 
 // Insert shoes based on section
 app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
