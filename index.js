@@ -36,7 +36,7 @@ app.get('/shoes/addshoe', (req, res) => {
     });
 })
 
-// GET SHOES IN SECTION
+// GET SHOES IN SECTION - don't really need
 app.get('/shoes/get/:shoeid', (req, res) => {
     const shoe_id = req.params.shoeid;
     let sql = `SELECT SECTION.section_name FROM SHOES JOIN SECTION ON SHOES.section_name = SECTION.section_name WHERE SHOES.shoeID LIKE '%${shoe_id}%';`;
@@ -46,6 +46,7 @@ app.get('/shoes/get/:shoeid', (req, res) => {
     })
 })
 
+// getting all the shoes that each section contains respectively
 app.get('/shoes/getallshoes', (req, res) => {
     let sql = 'SELECT * from shoes';
     let query = db.query(sql, (err, result) => {
@@ -53,6 +54,32 @@ app.get('/shoes/getallshoes', (req, res) => {
         res.json(result);
     })
 })
+
+app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
+    const shoe_id = req.params.shoeid;
+    const section_name = req.params.section_name;
+
+    let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        // res.json("result");
+        res.send("updated!");
+    })
+})
+
+// inserting shoe
+app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
+    const shoe_id = req.params.shoeid;
+    const section_name = req.params.section_name;
+
+    let sql = `INSERT INTO SHOES (shoeid, section_name) VALUES ('${shoe_id}', '${section_name}')`;
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        // res.json("result");
+        res.send("updated!");
+    })
+})
+
 
 
 // Define Express route to delete shoes based on section_name

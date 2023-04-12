@@ -14,11 +14,13 @@ async function populateSectionsWithShoes() {
         if (grid.id === gridID) {
           const gridElement = document.getElementById(grid.id);
           gridElement.setAttribute("data-content", stock['shoeID'])
+          gridElement.classList.add("has-stock");
         }
       })
     })
 }
 
+// calling the function at the very beginning so it fills the shoe gaps
 populateSectionsWithShoes();
 
 
