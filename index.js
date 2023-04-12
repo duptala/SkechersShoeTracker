@@ -21,16 +21,16 @@ db.connect((err) => {
 })
 
 // GET SHOES IN SECTION - don't really need
-app.get('/shoes/get/:shoeid', (req, res) => {
-    const shoe_id = req.params.shoeid;
-    let sql = `SELECT SECTION.section_name FROM SHOES JOIN SECTION ON SHOES.section_name = SECTION.section_name WHERE SHOES.shoeID LIKE '%${shoe_id}%';`;
-    let query = db.query(sql, (err, result) => {
-        if(err) throw err;
-        res.json(result);
-    })
-})
+// app.get('/shoes/get/:shoeid', (req, res) => {
+//     const shoe_id = req.params.shoeid;
+//     let sql = `SELECT SECTION.section_name FROM SHOES JOIN SECTION ON SHOES.section_name = SECTION.section_name WHERE SHOES.shoeID LIKE '%${shoe_id}%';`;
+//     let query = db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         res.json(result);
+//     })
+// })
 
-// getting all the shoes that each section contains respectively
+// Get ALL shoes + their data
 app.get('/shoes/getallshoes', (req, res) => {
     let sql = 'SELECT * from shoes';
     let query = db.query(sql, (err, result) => {
@@ -39,19 +39,21 @@ app.get('/shoes/getallshoes', (req, res) => {
     })
 })
 
-app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
-    const shoe_id = req.params.shoeid;
-    const section_name = req.params.section_name;
 
-    let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
-    let query = db.query(sql, (err, result) => {
-        if(err) throw err;
-        // res.json("result");
-        res.send("updated!");
-    })
-})
+// UPDATE
+// app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
+//     const shoe_id = req.params.shoeid;
+//     const section_name = req.params.section_name;
 
-// inserting shoe
+//     let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
+//     let query = db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         // res.json("result");
+//         res.send("updated!");
+//     })
+// })
+
+// Insert shoes based on section
 app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
     const shoe_id = req.params.shoeid;
     const section_name = req.params.section_name;
@@ -64,9 +66,7 @@ app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
     })
 })
 
-
-
-// Define Express route to delete shoes based on section_name
+// Delete shoes based on section
 app.get('/shoes/delete/:section_name', (req, res) => {
     // const section_name = gridElement.id;
     const section_name = req.params.section_name;

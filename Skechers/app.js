@@ -4,6 +4,7 @@ const queryResult = document.querySelector('.search-result');
 const grids = document.querySelectorAll(".grid-items");
 
 
+// GET
 async function populateSectionsWithShoes() {
   // getting all the shoes
   const response = await fetch('http://localhost:3000/shoes/getallshoes');
@@ -19,15 +20,27 @@ async function populateSectionsWithShoes() {
       })
     })
 }
-
-// calling the function at the very beginning so it fills the shoe gaps
+// populating all the shoe stock
 populateSectionsWithShoes();
+
+async function insertShoeIntoSection(stock, section_name) {
+  await fetch(`http://localhost:3000/shoes/insert/${stock}/${section_name}`);
+}
+
+// async function updateShoeIntoSection(stock, section_name) {
+//   await fetch(`http://localhost:3000/shoes/update/${stock}/${section_name}`);
+// }
+
+async function deleteShoesIntoSection(section_name) {
+  await fetch(`http://localhost:3000/shoes/delete/${section_name}`);
+}
+
 
 
 function searchShoe() {
   const code = searchBarInput.value.trim();
   queryResult.classList.remove("error");
-  queryResult.classList.remove("found");
+  queryResult.classList.remove("success");
 
   if (code === "") {
     queryResult.textContent = "⚠️ Please enter a valid shoe code! ⚠️";
@@ -51,10 +64,10 @@ function searchShoe() {
       }
       if (found) {
         queryResult.textContent = "Shoe found! 😄";
-        queryResult.classList.add("found");
+        queryResult.classList.add("success");
       } else {
         queryResult.textContent = "Shoe NOT found.. 🙁";
-        queryResult.classList.remove("found");
+        queryResult.classList.remove("success");
         queryResult.classList.add("error");
       }
     });
@@ -81,7 +94,7 @@ searchBarInput.addEventListener("keydown", function (event) {
   editBtn.addEventListener("click", () => {
     if (isDeleteMode === false) {
       isEditMode = !isEditMode;
-
+      // disabling other buttons when edit mode or delete mode is on
       if(isEditMode && isDeleteMode === false) {
         editBtn.textContent = "Exit Edit Mode";
         searchBarInput.disabled = true;
@@ -101,7 +114,7 @@ searchBarInput.addEventListener("keydown", function (event) {
 
   // adding delete button functionality
   deleteBtn.addEventListener("click", () => {
-    if (isEditMode === false) {
+    if (isEditMode === false) { // if edit is not enabled, enable disable btn
       isDeleteMode = !isDeleteMode;
       if (isDeleteMode) {
         isEditMode.disabled = true;
@@ -120,12 +133,17 @@ searchBarInput.addEventListener("keydown", function (event) {
     
   });
 
-    function saveShoe(contentInput, gridElement, editDialog) {
+    function saveShoe(contentInput, grid, gridElement, editDialog) {
+      // sets the new stock value of the new grid section
+      const stock = contentInput.value;
       gridElement.setAttribute("data-content", contentInput.value);
+      insertShoeIntoSection(stock, grid.id); // CALLING THE FUNCTION TO UPDATE IN SQL DATABASE
       gridElement.classList.add("has-stock");
+      // populateSectionsWithShoes();
+      // updating dialog (because user is not refreshing to fetch the results again)
       dialogContent.textContent = contentInput.value;
       queryResult.textContent = "Shoe successfully added!";
-      queryResult.classList.add("found");
+      queryResult.classList.add("success");
       editDialog.close();
     }
     // functionality for editing grid and updating values
@@ -157,16 +175,15 @@ searchBarInput.addEventListener("keydown", function (event) {
           saveButton.type = "button";
           saveButton.textContent = "Save";
           saveButton.addEventListener("click", () => {
-            saveShoe(contentInput, gridElement, editDialog);
+            saveShoe(contentInput, grid, gridElement, editDialog);
           });
     
           contentInput.addEventListener("keydown", function (event) {
             if (event.keyCode === 13) {
-              saveShoe(contentInput, gridElement, editDialog);
+              saveShoe(contentInput, grid, gridElement, editDialog);
             }
           });
     
-          
           cancelButton.type = "button";
           cancelButton.textContent = "Cancel";
           cancelButton.addEventListener("click", () => {
@@ -183,12 +200,14 @@ searchBarInput.addEventListener("keydown", function (event) {
           // only showing success "shoe deleted if stock existed before"
           if (gridElement.getAttribute("data-content").length === 0) {
             queryResult.textContent = "Stock already empty";
-            queryResult.classList.remove("found");
+            queryResult.classList.remove("success");
             queryResult.classList.add("error");
           } else {
+            const section_name = grid.id;
             queryResult.textContent = "Stock section deleted!";
-            queryResult.classList.add("found");
+            queryResult.classList.add("success");
             gridElement.setAttribute("data-content", "");
+            deleteShoesIntoSection(section_name); // UPDATING THE DATABASE
             grid.classList.remove("highlight");
             gridElement.classList.remove("has-stock");
           }       
