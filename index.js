@@ -95,11 +95,11 @@ app.get('/shoes/delete/:section_name', async (req, res) => {
   });
 
   // serving front-end
-  app.use(express.static(path.join(__dirname, "/Skechers/build")));
+  app.use(express.static(path.join(__dirname, "/Skechers")));
 
   app.get("*", function (_, res) {
     res.sendFile(
-      path.join(__dirname, "./Skechers/build/index.html"),
+      path.join(__dirname, "./Skechers/index.html"),
       function (err) {
         res.status(500).send(err);
       }
