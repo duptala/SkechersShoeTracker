@@ -4,20 +4,21 @@ const queryResult = document.querySelector('.search-result');
 const grids = document.querySelectorAll(".grid-items");
 
 
-// GET
+// Load up shoe sections with existing shoes
 async function populateSectionsWithShoes() {
   // getting all the shoes
-  const response = await fetch('http://localhost:3000/shoes/getallshoes');
+  const response = await fetch('https://gray-beaver-coat.cyclic.app/shoes/getallshoes');
   const stockInfo = await response.json();
     stockInfo.forEach(stock => {
-      const gridID = stock['section_name'];
-      grids.forEach(grid => {
-        if (grid.id === gridID) {
-          const gridElement = document.getElementById(grid.id);
-          gridElement.setAttribute("data-content", stock['shoeID'])
-          gridElement.classList.add("has-stock");
-        }
-      })
+      console.log(stock)
+      // const gridID = stock['section_name'];
+      // grids.forEach(grid => {
+      //   if (grid.id === gridID) {
+      //     const gridElement = document.getElementById(grid.id);
+      //     gridElement.setAttribute("data-content", stock['shoesID'])
+      //     gridElement.classList.add("has-stock");
+      //   }
+      // })
     })
 }
 // populating all the shoe stock
