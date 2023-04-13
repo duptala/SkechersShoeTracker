@@ -204,6 +204,13 @@ searchBarInput.addEventListener("keydown", function (event) {
             // Remove the edit dialog from the DOM when it's closed
             document.body.removeChild(editDialog);
           });
+
+          editDialog.addEventListener("click", (event) => {
+            // If the user clicks outside of the edit dialog, close it
+            if (event.target === editDialog) {
+              editDialog.close();
+            }
+          });
         } else if (isDeleteMode && isEditMode === false) { // delete mode
           // only showing success "shoe deleted if stock existed before"
           if (gridElement.getAttribute("data-content").length === 0) {
