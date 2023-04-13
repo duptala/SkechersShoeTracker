@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 mongoose.set('strictQuery', false);
 
-
+// CONNECTING TO DB
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
@@ -19,6 +19,7 @@ const connectDB = async () => {
     }
 }
 
+// ADDING SHOES
 app.get('/shoes/addshoe/:shoe_id/:section_name', async (req, res) => {
     const shoes_id = req.params.shoe_id;
     const shoe_section_name = req.params.section_name;
@@ -34,6 +35,7 @@ app.get('/shoes/addshoe/:shoe_id/:section_name', async (req, res) => {
     }
 });
 
+// UPDATING SHOES
 app.get('/shoes/update/:shoe_id/:section_name', async (req, res) => {
     const shoe_id = req.params.shoe_id;
     const shoe_section_name = req.params.section_name;
@@ -57,8 +59,6 @@ app.get('/shoes/update/:shoe_id/:section_name', async (req, res) => {
   });
   
 
-
-
 // GETTING ALL SHOES
 app.get('/shoes', async (req, res) => {
     const allShoes = await shoes.find();
@@ -70,16 +70,19 @@ app.get('/shoes', async (req, res) => {
     }
 });
 
-app.get('/shoes/delete', async (req, res) => {
+// DELETING SHOES IN STOCK SECTION
+app.get('/shoes/delete/:section_name', async (req, res) => {
+    const shoe_section_name = req.params.section_name;
+  
     try {
-      // Delete all documents in the users collection
-      await shoes.deleteMany();
-      console.log('All documents in users collection deleted successfully');
-      
-      // Query for the updated list of users
+      // Delete all shoes with the specified section name
+      const result = await shoes.deleteMany({ section_name: shoe_section_name });
+      console.log(`Deleted ${result.deletedCount} shoes in ${shoe_section_name}`);
+  
+      // Query for the updated list of shoes
       const allShoes = await shoes.find();
-      
-      // Send the list of users in the response
+  
+      // Send the list of shoes in the response
       res.json(allShoes);
     } catch (error) {
       console.log(error);
