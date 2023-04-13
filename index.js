@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const shoes = require('./models/shoes');
@@ -91,6 +92,18 @@ app.get('/shoes/delete/:section_name', async (req, res) => {
       console.log(error);
       res.status(500).json({ message: 'Internal server error' });
     }
+  });
+
+  // serving front-end
+  app.use(express.static(path.join(__dirname, "/Skechers/build")));
+
+  app.get("*", function (_, res) {
+    res.sendFile(
+      path.join(__dirname, "./Skechers/build/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    )
   });
   
 
