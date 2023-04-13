@@ -109,6 +109,17 @@ app.get("*", function (_, res) {
   )
 });
 
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./images/skxlogo.png"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  )
+});
+
   
 
 connectDB().then(() => {
