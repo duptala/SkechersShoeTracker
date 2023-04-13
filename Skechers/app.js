@@ -187,6 +187,10 @@ searchBarInput.addEventListener("keydown", function (event) {
               saveShoe(contentInput, grid, gridElement, editDialog);
             }
           });
+
+          saveButton.addEventListener("touchstart", () => {
+            saveShoe(contentInput, grid, gridElement, editDialog);
+          });
     
           cancelButton.type = "button";
           cancelButton.textContent = "Cancel";
