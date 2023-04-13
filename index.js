@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/shoes')
+const shoes = require('./models/shoes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 mongoose.set('strictQuery', false);
+
+
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
@@ -17,56 +19,68 @@ const connectDB = async () => {
     }
 }
 
-app.get('/', (req, res) => {
-    res.send({name: "Alice"});
-})
+app.get('/shoes/addshoe/:shoe_id/:section_name', async (req, res) => {
+    const shoes_id = req.params.shoe_id;
+    const shoe_section_name = req.params.section_name;
 
-
-app.get('/add-user', async (req, res) => {
     try {
-        await User.insertMany([
-            {
-              name: 'shoe1',
-              age: 20,
-              email: '201281'
-            },
-            {
-              name: 'shoe2',
-              age: 22,
-              email: '827182'
-            },
-            {
-              name: 'shoe3',
-              age: 19,
-              email: '0128287'
-            }
-        ])
+        const newShoe = await shoes.create({
+            shoesID: shoes_id,
+            section_name: shoe_section_name
+        });
+        res.send(newShoe);
     } catch (err) {
-        console.log("err, " + err);
+        console.log(err)
     }
-})
+});
 
-app.get('/users', async (req, res) => {
-    const user = await User.find();
+app.get('/shoes/update/:shoe_id/:section_name', async (req, res) => {
+    const shoe_id = req.params.shoe_id;
+    const shoe_section_name = req.params.section_name;
+  
+    try {
+      const updatedShoe = await shoes.findOneAndUpdate(
+        { section_name: shoe_section_name },
+        { $set: { shoesID: shoe_id } },
+        { new: true }
+      );
+  
+      if (updatedShoe) {
+        res.send(updatedShoe);
+      } else {
+        res.status(404).send({ error: 'Shoe not found' });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ error: 'Server error' });
+    }
+  });
+  
 
-    if (user) {
-        res.json(user);
+
+
+// GETTING ALL SHOES
+app.get('/shoes', async (req, res) => {
+    const allShoes = await shoes.find();
+
+    if (allShoes) {
+        res.json(allShoes);
     } else {
         console.log("something went wrong!")
     }
 });
 
-app.get('/users-delete', async (req, res) => {
+app.get('/shoes/delete', async (req, res) => {
     try {
       // Delete all documents in the users collection
-      await User.deleteMany();
+      await shoes.deleteMany();
       console.log('All documents in users collection deleted successfully');
       
       // Query for the updated list of users
-      const users = await User.find();
+      const allShoes = await shoes.find();
       
       // Send the list of users in the response
-      res.json(users);
+      res.json(allShoes);
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Internal server error' });
