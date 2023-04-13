@@ -10,30 +10,29 @@ async function populateSectionsWithShoes() {
   const response = await fetch('https://gray-beaver-coat.cyclic.app/shoes/getallshoes');
   const stockInfo = await response.json();
     stockInfo.forEach(stock => {
-      console.log(stock)
-      // const gridID = stock['section_name'];
-      // grids.forEach(grid => {
-      //   if (grid.id === gridID) {
-      //     const gridElement = document.getElementById(grid.id);
-      //     gridElement.setAttribute("data-content", stock['shoesID'])
-      //     gridElement.classList.add("has-stock");
-      //   }
-      // })
+      const gridID = stock['section_name'];
+      grids.forEach(grid => {
+        if (grid.id === gridID) {
+          const gridElement = document.getElementById(grid.id);
+          gridElement.setAttribute("data-content", stock['shoesID'])
+          gridElement.classList.add("has-stock");
+        }
+      })
     })
 }
 // populating all the shoe stock
 populateSectionsWithShoes();
 
 async function insertShoeIntoSection(stock, section_name) {
-  await fetch(`http://localhost:3000/shoes/insert/${stock}/${section_name}`);
+  await fetch(`https://gray-beaver-coat.cyclic.app/shoes/insert/${stock}/${section_name}`);
 }
 
 async function updateShoeIntoSection(stock, section_name) {
-  await fetch(`http://localhost:3000/shoes/update/${stock}/${section_name}`);
+  await fetch(`https://gray-beaver-coat.cyclic.app/shoes/update/${stock}/${section_name}`);
 }
 
 async function deleteShoesIntoSection(section_name) {
-  await fetch(`http://localhost:3000/shoes/delete/${section_name}`);
+  await fetch(`https://gray-beaver-coat.cyclic.app/shoes/delete/${section_name}`);
 }
 
 
