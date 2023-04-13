@@ -95,8 +95,7 @@ app.get('/shoes/delete/:section_name', async (req, res) => {
   });
 
   // serving front-end
-app.use(express.static(path.join(__dirname, "/Skechers"))); // for homepage 
-app.use(express.static(path.join(__dirname, "/images"))); // for image
+app.use(express.static(path.join(__dirname, "/Skechers"))); // for homepage
 
 app.get("*", function (_, res) {
   res.sendFile(
