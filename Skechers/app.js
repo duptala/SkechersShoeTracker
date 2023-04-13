@@ -151,66 +151,62 @@ searchBarInput.addEventListener("keydown", function (event) {
       editDialog.close();
     }
     // functionality for editing grid and updating values
-grids.forEach((grid) => {
-  grid.addEventListener("click", () => {
-    const gridId = grid.id;
-    const gridElement = document.getElementById(gridId);
-    if (isEditMode && isDeleteMode === false) {
-      // Create a new edit dialog for this grid element
-      const editDialog = document.createElement("dialog");
-      const contentInput = document.createElement("textarea");
-      const saveButton = document.createElement("button");
-      const cancelButton = document.createElement("button");
-
-      editDialog.classList.add("edit-dialog");
-      contentInput.classList.add("edit-dialog-textarea");
-      saveButton.classList.add("edit-dialog-save-btn");
-      cancelButton.classList.add("edit-dialog-cancel-btn");
-
-      editDialog.appendChild(contentInput);
-      editDialog.appendChild(saveButton);
-      editDialog.appendChild(cancelButton);
-      document.body.appendChild(editDialog);
-
-      contentInput.type = "text";
-      contentInput.value = gridElement.getAttribute("data-content");
-
-      // save button event listener
-      saveButton.type = "button";
-      saveButton.textContent = "Save";
-      const clickHandler = () => {
-        saveShoe(contentInput, grid, gridElement, editDialog);
-        editDialog.removeEventListener("click", clickHandler);
-        editDialog.removeEventListener("touchstart", clickHandler);
-      };
-      saveButton.addEventListener("click", clickHandler);
-      saveButton.addEventListener("touchstart", clickHandler);
-
-      contentInput.addEventListener("keydown", function (event) {
-        if (event.keyCode === 13) {
-          saveShoe(contentInput, grid, gridElement, editDialog);
-        }
-      });
-
-      cancelButton.type = "button";
-      cancelButton.textContent = "Cancel";
-      cancelButton.addEventListener("click", () => {
-        editDialog.close();
-      });
-      cancelButton.addEventListener("touchstart", () => {
-        editDialog.close();
-      });
-
-      editDialog.showModal();
-
-      editDialog.addEventListener("close", () => {
-        // Remove the edit dialog from the DOM when it's closed
-        document.body.removeChild(editDialog);
-      });
+    grids.forEach((grid) => {
+      grid.addEventListener("click", () => {
+        const gridId = grid.id;
+        const gridElement = document.getElementById(gridId);
+        if (isEditMode && isDeleteMode === false) {
+          // Create a new edit dialog for this grid element
+          const editDialog = document.createElement("dialog");
+          const contentInput = document.createElement("textarea");
+          const saveButton = document.createElement("button");
+          const cancelButton = document.createElement("button");
     
+          editDialog.classList.add("edit-dialog");
+          contentInput.classList.add("edit-dialog-textarea");
+          saveButton.classList.add("edit-dialog-save-btn");
+          cancelButton.classList.add("edit-dialog-cancel-btn");
+    
+          editDialog.appendChild(contentInput);
+          editDialog.appendChild(saveButton);
+          editDialog.appendChild(cancelButton);
+          document.body.appendChild(editDialog);
 
+          contentInput.type = "text";
+          contentInput.value = gridElement.getAttribute("data-content");
+    
+          // save button event listener
+          saveButton.type = "button";
+          saveButton.textContent = "Save";
+          saveButton.addEventListener("click", () => {
+            saveShoe(contentInput, grid, gridElement, editDialog);
+          });
+    
+          contentInput.addEventListener("keydown", function (event) {
+            if (event.keyCode === 13) {
+              saveShoe(contentInput, grid, gridElement, editDialog);
+            }
+          });
 
-
+          saveButton.addEventListener("touchstart", () => {
+            saveShoe(contentInput, grid, gridElement, editDialog);
+            editDialog.remove();
+            editDialog.close();
+            document.body.removeChild(editDialog);
+          });
+    
+          cancelButton.type = "button";
+          cancelButton.textContent = "Cancel";
+          cancelButton.addEventListener("click", () => {
+            editDialog.close();
+          });
+    
+          editDialog.showModal();
+    
+          editDialog.addEventListener("close", () => {
+            // Remove the edit dialog from the DOM when it's closed
+            document.body.removeChild(editDialog);
+          });
         } else if (isDeleteMode && isEditMode === false) { // delete mode
           // only showing success "shoe deleted if stock existed before"
           if (gridElement.getAttribute("data-content").length === 0) {
