@@ -1,76 +1,81 @@
+require('dotenv').config();
 const express = require('express');
+const mongoose = require('mongoose');
+const User = require('./models/shoes')
+
 const app = express();
-const mysql = require('mysql');
-const cors = require('cors'); // for front-end interaction
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
-
-app.listen(process.env.PORT || '3000', () => {
-    console.log(`Server is running on port: ${process.env.PORT || '3000'}`);
-});
-
-// connection
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
-});
-
-console.log(process.env.DB_HOST);
-console.log(process.env.DB_USER);
-console.log(process.env.DB_PASS);
-console.log(process.env.DB_NAME);
-
-db.connect((err) => {
-    if (err) {
-        console.log("ERROR CONNECTING");
-        throw err;
+mongoose.set('strictQuery', false);
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`MongoDB connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
     }
-    console.log("my sql connected!")
+}
+
+app.get('/', (req, res) => {
+    res.send({name: "Alice"});
+})
+
+
+app.get('/add-user', async (req, res) => {
+    try {
+        await User.insertMany([
+            {
+              name: 'shoe1',
+              age: 20,
+              email: '201281'
+            },
+            {
+              name: 'shoe2',
+              age: 22,
+              email: '827182'
+            },
+            {
+              name: 'shoe3',
+              age: 19,
+              email: '0128287'
+            }
+        ])
+    } catch (err) {
+        console.log("err, " + err);
+    }
+})
+
+app.get('/users', async (req, res) => {
+    const user = await User.find();
+
+    if (user) {
+        res.json(user);
+    } else {
+        console.log("something went wrong!")
+    }
 });
 
-// Get ALL shoes + their data
-app.get('/shoes/getallshoes', (req, res) => {
-    let sql = 'SELECT * from shoes';
-    let query = db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.json(result);
+app.get('/users-delete', async (req, res) => {
+    try {
+      // Delete all documents in the users collection
+      await User.deleteMany();
+      console.log('All documents in users collection deleted successfully');
+      
+      // Query for the updated list of users
+      const users = await User.find();
+      
+      // Send the list of users in the response
+      res.json(users);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Listening on port: ${PORT}`);
     })
-})
-
-// UPDATE
-app.get('/shoes/update/:shoeid/:section_name', (req, res) => {
-    const shoe_id = req.params.shoeid;
-    const section_name = req.params.section_name;
-
-    let sql = `UPDATE SHOES SET SHOES.shoeID = '${shoe_id}' WHERE shoes.section_name = '${section_name}'`;
-    let query = db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.send("updated!");
-    })
-})
-
-// Insert shoes based on section
-app.get('/shoes/insert/:shoeid/:section_name', (req, res) => {
-    const shoe_id = req.params.shoeid;
-    const section_name = req.params.section_name;
-
-    let sql = `INSERT INTO SHOES (shoeid, section_name) VALUES ('${shoe_id}', '${section_name}')`;
-    let query = db.query(sql, (err, result) => {
-        if (err) throw err;
-        res.send("shoes inserted/updated!");
-    })
-})
-
-// Delete shoes based on section
-app.get('/shoes/delete/:section_name', (req, res) => {
-    const section_name = req.params.section_name;
-
-    let sql = `DELETE FROM SHOES WHERE SHOES.section_name = '${section_name}'`;
-    let query = db.query(sql, (error, result) => {
-        if (error) throw error;
-        res.send("shoes deleted!");
-    });
 });
