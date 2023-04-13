@@ -20,7 +20,7 @@ const connectDB = async () => {
 }
 
 // ADDING SHOES
-app.get('/shoes/addshoe/:shoe_id/:section_name', async (req, res) => {
+app.get('/shoes/insert/:shoe_id/:section_name', async (req, res) => {
     const shoes_id = req.params.shoe_id;
     const shoe_section_name = req.params.section_name;
 
@@ -60,7 +60,7 @@ app.get('/shoes/update/:shoe_id/:section_name', async (req, res) => {
   
 
 // GETTING ALL SHOES
-app.get('/shoes', async (req, res) => {
+app.get('/shoes/getallshoes', async (req, res) => {
     const allShoes = await shoes.find();
 
     if (allShoes) {
